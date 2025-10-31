@@ -25,7 +25,7 @@ The application consists of a few key parts:
 *   **`static/js/main.js`**: The frontend JavaScript that fetches data from the `/api/metrics` endpoint every second and updates the charts.
 
 
-Follow these steps to get the application running on your local machine.
+## Setup
 
 Set up the database by executing the setup script once to create `metrics.db` database file.
 
