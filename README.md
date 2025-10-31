@@ -4,8 +4,8 @@ This is a simple, Python web application built with Flask that monitors and disp
 
 ## Features
 
-*   **CPU Utilization**: Captures and charts the overall CPU usage percentage.
-*   **GPU Utilization**: Captures and charts NVIDIA GPU usage and memory consumption (if an NVIDIA GPU and the `pynvml` library are available).
+*   **CPU Utilization**: Captures and draws the overall CPU usage percentage.
+*   **GPU Utilization**: Captures and draws NVIDIA GPU usage and memory consumption (if an NVIDIA GPU and the `pynvml` library are available).
 *   **Real-time Dashboard**: Uses Chart.js to display auto-refreshing line charts.
 *   **Data Persistence**: Stores up to one hour of performance metrics in a local SQLite database.
 
