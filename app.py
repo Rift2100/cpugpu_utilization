@@ -1,12 +1,12 @@
 
 import sqlite3
 import time
-import psutil
+import psutil #It will help get the CPU utilization
 from threading import Thread, Lock
 from flask import Flask, render_template, jsonify
 
 try:
-    from pynvml import nvmlInit, nvmlDeviceGetHandleByIndex, nvmlDeviceGetUtilizationRates, nvmlDeviceGetMemoryInfo
+    from pynvml import nvmlInit, nvmlDeviceGetHandleByIndex, nvmlDeviceGetUtilizationRates, nvmlDeviceGetMemoryInfo #For NVIDIA GPUs, For AMD need to get the hardware and test
     nvmlInit()
     MONITOR_GPU = True
     print("GPU monitoring is enabled.")
@@ -41,6 +41,7 @@ def collect_metrics():
             except Exception as e:
                 print(f"Could not retrieve GPU stats: {e}")
 
+        #making sure we are not using database for anything. 
         with db_lock:
             conn = get_db_connection()
             conn.execute(
@@ -52,6 +53,7 @@ def collect_metrics():
 
         time.sleep(1) #sleep for 1 second before collecting next data
 
+#Clenaing DB every 5 minutes
 def cleanup_old_data():
     print("Starting database cleanup thread...")
     while True:
@@ -66,7 +68,7 @@ def cleanup_old_data():
 
 @app.route('/')
 def index():
-    return render_template('index.html', gpu_enabled=MONITOR_GPU)
+    return render_template('index.html', gpu_enabled=MONITOR_GPU) # GPU_enabled indicates if the graph should be shown on UI or not
 
 @app.route('/api/metrics')
 def get_metrics():
@@ -82,7 +84,6 @@ if __name__ == '__main__':
 
     cleanup_thread = Thread(target=cleanup_old_data, daemon=True)
     cleanup_thread.start()
-
 
     print("Starting Flask server on http://127.0.0.1:8080")
     from waitress import serve
