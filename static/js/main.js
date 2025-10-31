@@ -16,10 +16,6 @@ function createChartConfig(title, yAxisLabel) {
         },
         options: {
             responsive: true,
-            // animation: {
-            //     duration: 400, // A subtle animation for data updates
-            //     easing: 'linear'
-            // },
             plugins: {
                 title: {
                     display: true,
@@ -63,13 +59,10 @@ function createChartConfig(title, yAxisLabel) {
 const cpuCtx = document.getElementById('cpuChart')?.getContext('2d');
 const gpuCtx = document.getElementById('gpuChart')?.getContext('2d');
 const gpuMemoryCtx = document.getElementById('gpuMemoryChart')?.getContext('2d');
-
 const cpuChartConfig = createChartConfig('CPU Utilization', 'CPU Usage (%)');
 const cpuChart = cpuCtx ? new Chart(cpuCtx, cpuChartConfig) : null;
-
 const gpuChartConfig = createChartConfig('GPU Utilization', 'GPU Usage (%)');
 const gpuChart = gpuCtx ? new Chart(gpuCtx, gpuChartConfig) : null;
-
 const gpuMemoryChartConfig = createChartConfig('GPU Memory Usage', 'Memory Used (MB)');
 
 if (gpuMemoryChartConfig) {
@@ -85,7 +78,6 @@ async function updateCharts() {
             return;
         }
         const dataPoints = await response.json();
-
         const maxDataPoints = 60;
         const labels = dataPoints.map(p => new Date(p.timestamp));
         const cpuData = dataPoints.map(p => p.cpu_utilization);
@@ -98,11 +90,9 @@ async function updateCharts() {
             chart.data.datasets[0].data = data;
             chart.update('none'); // stops a full re-render of chart
         };
-
         update(cpuChart, cpuData);
         update(gpuChart, gpuData);
         update(gpuMemoryChart, gpuMemoryData);
-
     } catch (error) {
         console.error("Error updating charts:", error);
     }
